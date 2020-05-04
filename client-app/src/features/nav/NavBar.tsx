@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu, Container, Button } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 
-export const NavBar: React.FC = () => {
+const NavBar: React.FC = () => {
 	return (
 		<Menu fixed="top" inverted>
 			<Container>
