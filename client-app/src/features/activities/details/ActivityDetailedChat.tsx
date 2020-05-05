@@ -43,7 +43,7 @@ const ActivityDetailedChat = () => {
 						</Comment.Content>
 					</Comment>
 
-					<Form replay='true'>
+					<Form replay="true">
 						<Form.TextArea />
 						<Button
 							content="Add Replay"

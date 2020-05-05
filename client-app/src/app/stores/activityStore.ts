@@ -1,12 +1,11 @@
-import { observable, action, computed, configure, runInAction } from 'mobx';
+import { observable, action, computed, runInAction } from 'mobx';
 import { createContext, SyntheticEvent } from 'react';
 import { IActivity } from '../models/activity';
 import agent from '../api/agent';
-
-configure({ enforceActions: 'always' });
+import { history } from '../..';
 
 class ActivityStore {
-	@observable activityRegistry = new Map<string, IActivity>(); //storing activities
+	@observable activityRegistry = new Map(); //storing activities (should be: Map<string, IActivity>(); but currently type of :any)
 	@observable activity: IActivity | null = null;
 	@observable loadingInitial = false;
 	@observable submitting = false;
@@ -20,11 +19,11 @@ class ActivityStore {
 
 	groupActivitiesByDate(activities: IActivity[]) {
 		const sortedActivities = activities.sort(
-			(a, b) => Date.parse(a.date) - Date.parse(b.date)
+			(a, b) => a.date.getTime() - b.date.getTime()
 		);
 		return Object.entries(
 			sortedActivities.reduce((activities, activity) => {
-				const date = activity.date.split('T')[0];
+				const date = activity.date.toISOString().split('T')[0];
 				activities[date] = activities[date]
 					? [...activities[date], activity]
 					: [activity];
@@ -39,7 +38,7 @@ class ActivityStore {
 			const activities = await agent.Activities.list();
 			runInAction('loading activities', () => {
 				activities.forEach((activity) => {
-					activity.date = activity.date.split('.')[0];
+					activity.date = new Date(activity.date);
 					this.activityRegistry.set(activity.id, activity);
 					this.loadingInitial = false;
 				});
@@ -58,13 +57,17 @@ class ActivityStore {
 		if (activity) {
 			this.activity = activity;
 			this.loadingInitial = false;
+			return activity;
 		} else {
 			try {
 				activity = await agent.Activities.details(id);
 				runInAction('getting activity', () => {
-					this.activity = activity || null;
+					activity.date = new Date(activity.date);
+					this.activity = activity;
+					this.activityRegistry.set(activity.id, activity);
 					this.loadingInitial = false;
 				});
+				return activity;
 			} catch (error) {
 				runInAction('get activity error', () => {
 					this.loadingInitial = false;
@@ -91,22 +94,17 @@ class ActivityStore {
 				this.activityRegistry.set(activity.id, activity);
 				this.submitting = false;
 			});
+			history.push(`/activities/${activity.id}`);
 		} catch (error) {
 			runInAction('creating activity error', () => {
 				this.submitting = false;
 			});
-			console.log(error);
+			console.log(error.response);
 		}
 	};
 
 	@action editActivity = async (activity: IActivity) => {
 		this.submitting = true;
-
-		if (activity === this.activity) {
-			console.log('OBJECTS ARE THE SAME');
-			return;
-		}
-
 		try {
 			await agent.Activities.update(activity);
 			runInAction('editing activity', () => {
@@ -114,11 +112,12 @@ class ActivityStore {
 				this.activity = activity;
 				this.submitting = false;
 			});
+			history.push(`/activities/${activity.id}`);
 		} catch (error) {
 			runInAction('editing activity error', () => {
 				this.submitting = false;
 			});
-			console.log(error);
+			console.log(error.response);
 		}
 	};
 
