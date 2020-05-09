@@ -14,5 +14,7 @@ Navigate to the client-app/ project using console and run:
 
 ---
 
+Project based on the Neil Cummings course.
 More details:
-https://github.com/sheen4n/Reactivities
+- https://github.com/sheen4n/Reactivities
+- https://www.udemy.com/course/complete-guide-to-building-an-app-with-net-core-and-react/
