@@ -1,7 +1,7 @@
 Application demonstrates activities and users interactions based on:
 
-- Backend relays on the .NET Core 3.1 architecture.
-- Frontend is based on the React with Mobex.
+- .NET Core 3.1 architecture
+- React with Mobex as a frontend solution for the frontent part of the application.
 
 To run project navigate to API project using console and run:
 
