@@ -33,8 +33,8 @@ const HomePage = () => {
 							<Button as={Link} to="/login" size="huge" inverted>
 								Login
 							</Button>
-							<Button as={Link} to="/register" size="huge" inverted>
-								Login
+							<Button as={Link} onClick={() => false} size="huge" inverted>
+								Register
 							</Button>
 						</Fragment>
 					)
