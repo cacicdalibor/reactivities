@@ -8,7 +8,7 @@ export default class ModalStore {
 		this.rootStore = rootStore;
 	}
 
-	@observable modal = {
+	@observable.shallow modal = {
 		open: false,
 		body: null,
 	};

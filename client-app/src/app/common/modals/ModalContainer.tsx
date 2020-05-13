@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Modal } from 'semantic-ui-react';
 import { RootStoreContext } from '../../stores/rootStore';
+import { observer } from 'mobx-react-lite';
 
 const ModalContainer = () => {
     const rootStore = useContext(RootStoreContext);
@@ -8,9 +9,9 @@ const ModalContainer = () => {
 
     return (
         <Modal open={open} onClose={closeModal} size='mini'>
-            <Modal.Content> our component will go here </Modal.Content>
+            <Modal.Content>{body}</Modal.Content>
         </Modal>
     )
 }
 
-export default ModalContainer;
+export default observer(ModalContainer);
