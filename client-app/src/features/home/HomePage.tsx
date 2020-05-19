@@ -21,26 +21,37 @@ const HomePage = () => {
 					/>
 					Reactivities
 				</Header>
-				{isLoggedIn && user ?
-					(
-						<Fragment>
-							<Header as="h2" inverted content={`Welcome back ${user.displayName}`} />
-							<Button as={Link} to="/activities" size="huge" inverted>
-								Go to activities!
+				{isLoggedIn && user ? (
+					<Fragment>
+						<Header
+							as="h2"
+							inverted
+							content={`Welcome back ${user.displayName}`}
+						/>
+						<Button as={Link} to="/activities" size="huge" inverted>
+							Go to activities!
 						</Button>
-						</Fragment>
-					) : (
-						<Fragment>
-							<Header as="h2" inverted content="Welcome to Reactivities" />
-							<Button onClick={() => openModal(<LoginForm />)} size="huge" inverted style={{ marginRight: '20px' }}>
-								Login
-							</Button>
-							<Button onClick={() => openModal(<RegisterForm />)} size="huge" inverted>
-								Register
-							</Button>
-						</Fragment>
-					)
-				}
+					</Fragment>
+				) : (
+					<Fragment>
+						<Header as="h2" inverted content="Welcome to Reactivities" />
+						<Button
+							onClick={() => openModal(<LoginForm />)}
+							size="huge"
+							inverted
+							style={{ marginRight: '20px' }}
+						>
+							Login
+						</Button>
+						<Button
+							onClick={() => openModal(<RegisterForm />)}
+							size="huge"
+							inverted
+						>
+							Register
+						</Button>
+					</Fragment>
+				)}
 			</Container>
 		</Segment>
 	);

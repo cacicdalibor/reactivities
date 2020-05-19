@@ -30,9 +30,9 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 		} else {
 			setAppLoaded();
 		}
-	}, [token, getUser, setAppLoaded])
+	}, [token, getUser, setAppLoaded]);
 
-	if (!appLoaded) return (<LoadingComponent content='Loading app...' />)
+	if (!appLoaded) return <LoadingComponent content="Loading app..." />;
 
 	return (
 		<Fragment>
